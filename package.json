@@ -1,0 +1,43 @@
+{
+  "name": "ng-book2-reddit",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "postinstall": "npm run typings install",
+    "clean": "rm -f ./app/*.js; rm -f ./app/*.js.map;rm -f ./app/model/*.js; rm -f ./app/model/*.js.map;rm -f ./app/service/*.js; rm -f ./app/service/*.js.map;rm -f ./app/component/*.js; rm -f ./app/component/*.js.map",
+    "tsc": "./node_modules/.bin/tsc",
+    "tsc:w": "./node_modules/.bin/tsc -w",
+    "serve": "./node_modules/.bin/live-server --host=localhost --port=8080 .",
+    "go": "concurrently \"npm run tsc:w\" \"npm run serve\" ",
+    "typings" : "typings"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "angular2": "2.0.0-beta.12",
+    "es6-promise": "latest",
+    "es6-shim": "latest",
+    "reflect-metadata": "0.1.2",
+    "rxjs": "5.0.0-beta.2",
+    "socket.io": "latest",
+    "systemjs": "latest",
+    "zone.js": "latest",
+    "primeng": "0.9.1",
+    "primeui": "4.1.6"
+  },
+  "devDependencies": {
+    "concurrently": "latest",
+    "live-server": "latest",
+    "typescript": "latest",
+    "typings": "^0.7.9"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hmunoz/angularDemo.git"
+  },
+  "author": "hmunoz@unrn.edu.ar",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/hmunoz/angularDemo/issues"
+  },
+  "homepage": "https://github.com/hmunoz/angularDemo#readme"
+}
