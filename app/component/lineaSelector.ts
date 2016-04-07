@@ -8,7 +8,7 @@ declare let io ;
 
 @Component({ selector: 'linea-selector',
     directives: [Panel,Dropdown],
-    templateUrl:'app/component/lineselector.html'
+    templateUrl:'app/view/lineselector.html'
 
 })
 

@@ -1,4 +1,4 @@
-System.register(['rxjs/add/operator/share', 'rxjs/add/operator/map', 'angular2/core', './model/todo', './service/TodoService', './component/lineaSelector', 'primeng/primeng'], function(exports_1, context_1) {
+System.register(['rxjs/add/operator/share', 'rxjs/add/operator/map', 'angular2/core', './model/todo', './service/TodoService', './component/lineaSelector', 'primeng/primeng', './component/todoItems'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,8 +10,8 @@ System.register(['rxjs/add/operator/share', 'rxjs/add/operator/map', 'angular2/c
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, todo_1, TodoService_1, lineaSelector_1, primeng_1, primeng_2, primeng_3, primeng_4, primeng_5, primeng_6;
-    var TodoComponent, AppComponent;
+    var core_1, todo_1, TodoService_1, lineaSelector_1, primeng_1, primeng_2, primeng_3, primeng_4, primeng_5, primeng_6, todoItems_1;
+    var AppComponent;
     return {
         setters:[
             function (_1) {},
@@ -35,33 +35,11 @@ System.register(['rxjs/add/operator/share', 'rxjs/add/operator/map', 'angular2/c
                 primeng_4 = primeng_1_1;
                 primeng_5 = primeng_1_1;
                 primeng_6 = primeng_1_1;
+            },
+            function (todoItems_1_1) {
+                todoItems_1 = todoItems_1_1;
             }],
         execute: function() {
-            TodoComponent = (function () {
-                function TodoComponent() {
-                    this.todo = new todo_1.Todo('Autor', 'Texto', 'A', 0);
-                }
-                TodoComponent.prototype.voteUp = function () {
-                    this.todo.voteUp();
-                    return false;
-                };
-                TodoComponent.prototype.voteDown = function () {
-                    this.todo.voteDown();
-                    return false;
-                };
-                TodoComponent = __decorate([
-                    core_1.Component({
-                        selector: 'reddit-items',
-                        inputs: ['todo'],
-                        host: {
-                            class: 'row'
-                        },
-                        template: "\n    <div class=\"four wide column center aligned votes\">\n      <div class=\"ui statistic\">\n        <div class=\"value\">\n          {{ todo.votes }}\n        </div>\n        <div class=\"label\">\n          Points\n        </div>\n      </div>\n    </div>\n    <div class=\"twelve wide column\">\n      <a class=\"ui large header\" href=\"{{ todo.autor }}\">\n        {{ todo.texto }}\n      </a>\n      <ul class=\"ui big horizontal list voters\">\n        <li class=\"item\">\n          <a href (click)=\"voteUp()\">\n            <i class=\"arrow up icon\"></i>\n              upvote \n            </a>\n        </li>\n        <li class=\"item\"> \n          <a href (click)=\"voteDown()\">\n            <i class=\"arrow down icon\"></i>\n            downvote\n          </a>\n        </li>\n      </ul>\n    </div>\n  "
-                    }), 
-                    __metadata('design:paramtypes', [])
-                ], TodoComponent);
-                return TodoComponent;
-            }());
             AppComponent = (function () {
                 //https://angular.io/docs/ts/latest/guide/forms.html 
                 function AppComponent(_todoService) {
@@ -135,8 +113,8 @@ System.register(['rxjs/add/operator/share', 'rxjs/add/operator/map', 'angular2/c
                 ], AppComponent.prototype, "linea", void 0);
                 AppComponent = __decorate([
                     core_1.Component({
-                        selector: 'reddit',
-                        directives: [TodoComponent, lineaSelector_1.LineaSelector, primeng_1.InputText, primeng_2.Panel, primeng_3.DataList, primeng_4.Header, primeng_5.Footer, primeng_6.Growl],
+                        selector: 'app',
+                        directives: [todoItems_1.TodoComponentItems, lineaSelector_1.LineaSelector, primeng_1.InputText, primeng_2.Panel, primeng_3.DataList, primeng_4.Header, primeng_5.Footer, primeng_6.Growl],
                         providers: [TodoService_1.TodoService],
                         template: "\n    <linea-selector (select)=\"cambioDeLinea($event)\"></linea-selector>\n    \n    <form class=\"ui large form segment\">\n      <h3 class=\"ui header\">Add  Todo</h3>\n\n      <div class=\"field\">\n        <label for=\"texto\">Texto:</label>\n        <input name=\"texto\" #newTexto pInputText>\n      </div>\n      <div class=\"field\">\n        <label for=\"autor\">Autor:</label>\n        <input name=\"autor\" #newAutor pInputText>\n      </div>\n\n      <button (click)=\"addTodo(newTexto, newAutor)\"\n              class=\"ui positive right floated button\">\n        Submit Todo\n      </button>\n       <p-growl [value]=\"msgs\"></p-growl>\n    </form>\n\n    <div class=\"ui grid posts\">\n      <reddit-items\n        *ngFor=\"#todo of todosSocket\"\n        [todo]=\"todo\">\n      </reddit-items>\n   </div>   \n   \n    \n    \n     <p-panel header=\"Title\">\n     <p-dataList [value]=\"todos | async\" [paginator]=\"true\" [rows]=\"10\">\n    <header>Lista de ...</header>\n    <footer>Choose from the list.</footer>\n     <template #data>\n        <li style=\"border-bottom:1px solid #D5D5D5;\">\n            <div class=\"ui-grid ui-grid-responsive ui-fluid\" style=\"font-size:16px;padding:20px\">\n                <div class=\"ui-grid-row\">\n                    <div class=\"ui-grid-col-3\" style=\"text-align:center\">\n                    <i class=\"fa fa-search\" (click)=\"show(data)\" style=\"cursor:pointer;float:left;margin-top:40px\"></i>\n                    <button (click)=\"deleteTodo(data._id)\">x</button>\n                    </div>\n                    \n                    \n                    <div class=\"ui-grid-col-9\">\n                        <div class=\"ui-grid ui-grid-responsive ui-fluid\">\n                            <div class=\"ui-grid-row\">\n                                <div class=\"ui-grid-col-2\">Vin: </div>\n                                <div class=\"ui-grid-col-10\">{{data.texto}}</div>\n                            </div>\n                            <div class=\"ui-grid-row\">\n                                <div class=\"ui-grid-col-2\">Year: </div>\n                                <div class=\"ui-grid-col-10\">{{data.autor}}</div>\n                            </div>\n                        \n                        </div>\n                    </div>\n                </div>\n            </div>\n        </li>\n    </template>\n</p-dataList>\n    </p-panel>\n  "
                     }), 

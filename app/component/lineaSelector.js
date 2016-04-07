@@ -46,7 +46,7 @@ System.register(['angular2/core', 'primeng/primeng'], function(exports_1, contex
                 LineaSelector = __decorate([
                     core_1.Component({ selector: 'linea-selector',
                         directives: [primeng_2.Panel, primeng_1.Dropdown],
-                        templateUrl: 'app/component/lineselector.html'
+                        templateUrl: 'app/view/lineselector.html'
                     }), 
                     __metadata('design:paramtypes', [])
                 ], LineaSelector);

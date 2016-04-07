@@ -12,70 +12,16 @@ import {Header} from 'primeng/primeng';
 import {Footer} from 'primeng/primeng';
 import {Growl} from 'primeng/primeng';
 import {Message} from 'primeng/primeng';
+import {TodoComponentItems} from './component/todoItems';
 
 
 declare let io;
 
-@Component({
-    selector: 'reddit-items',
-    inputs: ['todo'],
-    host: {
-        class: 'row'
-    },
-    template: `
-    <div class="four wide column center aligned votes">
-      <div class="ui statistic">
-        <div class="value">
-          {{ todo.votes }}
-        </div>
-        <div class="label">
-          Points
-        </div>
-      </div>
-    </div>
-    <div class="twelve wide column">
-      <a class="ui large header" href="{{ todo.autor }}">
-        {{ todo.texto }}
-      </a>
-      <ul class="ui big horizontal list voters">
-        <li class="item">
-          <a href (click)="voteUp()">
-            <i class="arrow up icon"></i>
-              upvote 
-            </a>
-        </li>
-        <li class="item"> 
-          <a href (click)="voteDown()">
-            <i class="arrow down icon"></i>
-            downvote
-          </a>
-        </li>
-      </ul>
-    </div>
-  `
-})
 
-class TodoComponent {
-    todo:Todo;
-
-    constructor() {
-        this.todo = new Todo('Autor','Texto','A',0);
-    }
-
-    voteUp():Boolean {
-        this.todo.voteUp();
-        return false;
-    }
-
-    voteDown():Boolean {
-        this.todo.voteDown();
-        return false;
-    }
-}
 
 @Component({
-    selector: 'reddit',
-    directives: [TodoComponent, LineaSelector, InputText, Panel, DataList, Header, Footer, Growl],
+    selector: 'app',
+    directives: [TodoComponentItems, LineaSelector, InputText, Panel, DataList, Header, Footer, Growl],
     providers: [TodoService],
     template: `
     <linea-selector (select)="cambioDeLinea($event)"></linea-selector>
