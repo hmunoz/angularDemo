@@ -1,4 +1,4 @@
-System.register(['rxjs/add/operator/share', 'rxjs/add/operator/map', 'angular2/core', 'angular2/router', './component/ListaTodo', "./component/SocketComponent"], function(exports_1, context_1) {
+System.register(['rxjs/add/operator/share', 'rxjs/add/operator/map', 'angular2/core', 'angular2/router', './component/ListaTodo', "./component/SocketComponent", 'primeng/primeng'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['rxjs/add/operator/share', 'rxjs/add/operator/map', 'angular2/c
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, router_1, ListaTodo_1, SocketComponent_1;
+    var core_1, router_1, ListaTodo_1, SocketComponent_1, primeng_1;
     var AppComponent;
     return {
         setters:[
@@ -27,6 +27,9 @@ System.register(['rxjs/add/operator/share', 'rxjs/add/operator/map', 'angular2/c
             },
             function (SocketComponent_1_1) {
                 SocketComponent_1 = SocketComponent_1_1;
+            },
+            function (primeng_1_1) {
+                primeng_1 = primeng_1_1;
             }],
         execute: function() {
             AppComponent = (function () {
@@ -35,8 +38,8 @@ System.register(['rxjs/add/operator/share', 'rxjs/add/operator/map', 'angular2/c
                 AppComponent = __decorate([
                     core_1.Component({
                         selector: 'app',
-                        directives: [router_1.ROUTER_DIRECTIVES],
-                        template: "\n    <h1 class=\"title\">Demo Lia</h1>\n    <nav>\n      <a [routerLink]=\"['ListaTodo']\">Lista de Todos</a>\n      <a [routerLink]=\"['SocketTodo']\">SocketIO demo</a>\n      \n    </nav>\n    <router-outlet></router-outlet>\n  "
+                        directives: [router_1.ROUTER_DIRECTIVES, primeng_1.Menu],
+                        template: "\n    \n    <!-- Menu Bar -->\n    <div class=\"ui menu\">\n      <div class=\"ui container\">\n        <p-menu>\n            <ul>\n                <li><h3>Menu</h3></li>\n                <li><a data-icon=\"fa-plus\" [routerLink]=\"['ListaTodo']\"><span>Todo</span></a></li>\n                <li><a data-icon=\"fa-refresh\" [routerLink]=\"['SocketTodo']\"><span>IO</span></a></li>\n            </ul>\n        </p-menu>\n        <div class=\"header item borderless\">\n          <h1 class=\"ui header\">\n            Angular 2 Ejemplo\n          </h1>\n        </div>\n      </div>\n    </div>\n\n    <div class=\"ui main text container\">\n      <router-outlet></router-outlet><!-- <--- Our app loads here! -->\n    </div>  \n  "
                     }),
                     router_1.RouteConfig([
                         {
