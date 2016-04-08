@@ -47,5 +47,5 @@ import {Menu} from 'primeng/primeng';
 ])
 
 export class AppComponent {
-    
+
 }
