@@ -26,7 +26,7 @@ import {Router, RouteParams} from 'angular2/router';
     <header>Lista</header>
     <p-column field="texto" header="texto" [filter]="true" [sortable]="true"></p-column>
     <p-column field="autor" header="autor" [filter]="true" filterMatchMode="contains" [sortable]="true"></p-column>
-    <p-column field="linea" header="Linea" [filter]="true" [sortable]="true"></p-column>
+    <p-column field="linea.texto" header="Linea" [filter]="true" [sortable]="true"></p-column>
     <p-column style="width:10%;text-align:center">
         <template #todo="rowData">
             <button type="button" pButton (click)="show(todo)" icon="fa-search"></button>

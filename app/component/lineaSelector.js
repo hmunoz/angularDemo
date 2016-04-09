@@ -1,4 +1,4 @@
-System.register(['angular2/core', 'primeng/primeng'], function(exports_1, context_1) {
+System.register(['angular2/core', 'primeng/primeng', '../service/LineaService', 'angular2/http'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['angular2/core', 'primeng/primeng'], function(exports_1, contex
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, primeng_1, primeng_2;
+    var core_1, primeng_1, primeng_2, LineaService_1, http_1;
     var LineaSelector;
     return {
         setters:[
@@ -20,21 +20,40 @@ System.register(['angular2/core', 'primeng/primeng'], function(exports_1, contex
             function (primeng_1_1) {
                 primeng_1 = primeng_1_1;
                 primeng_2 = primeng_1_1;
+            },
+            function (LineaService_1_1) {
+                LineaService_1 = LineaService_1_1;
+            },
+            function (http_1_1) {
+                http_1 = http_1_1;
             }],
         execute: function() {
             LineaSelector = (function () {
-                function LineaSelector() {
+                function LineaSelector(_lineaService) {
+                    this._lineaService = _lineaService;
                     this.select = new core_1.EventEmitter();
-                    this.lineas = [];
-                    this.lineas.push({ label: 'Seleccionar Linea...', value: '' });
-                    this.lineas.push({ label: 'A', value: 'A' });
-                    this.lineas.push({ label: 'B', value: 'B' });
-                    this.lineas.push({ label: 'C', value: 'C' });
-                    this.lineas.push({ label: 'D', value: 'D' });
-                    this.lineas.push({ label: 'E', value: 'E' });
                 }
+                Object.defineProperty(LineaSelector.prototype, "lineaService", {
+                    get: function () {
+                        return this._lineaService;
+                    },
+                    set: function (value) {
+                        this._lineaService = value;
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
                 LineaSelector.prototype.ngOnInit = function () {
+                    var _this = this;
                     this.select.emit("");
+                    this.lineaService.getAll().subscribe(function (lineas) {
+                        //this.lineas=lineas;
+                        _this.lineas = [];
+                        _this.lineas.push({ label: 'Seleccionar Linea...', value: '' });
+                        for (var key in lineas) {
+                            _this.lineas.push({ label: lineas[key].texto, value: lineas[key]._id });
+                        }
+                    });
                 };
                 LineaSelector.prototype.test = function (event) {
                     this.select.emit(event.value);
@@ -46,9 +65,10 @@ System.register(['angular2/core', 'primeng/primeng'], function(exports_1, contex
                 LineaSelector = __decorate([
                     core_1.Component({ selector: 'linea-selector',
                         directives: [primeng_2.Panel, primeng_1.Dropdown],
+                        providers: [http_1.HTTP_PROVIDERS, LineaService_1.LineaService],
                         templateUrl: 'app/view/lineselector.html'
                     }), 
-                    __metadata('design:paramtypes', [])
+                    __metadata('design:paramtypes', [LineaService_1.LineaService])
                 ], LineaSelector);
                 return LineaSelector;
             }());
