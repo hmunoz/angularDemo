@@ -1,7 +1,7 @@
 # AngularJS 2 y Socket io
 
 
-[![ScreenShot](https://raw.github.com/GabLeRoux/WebMole/master/ressources/WebMole_Youtube_Video.png)](http://youtu.be/kj1UNUV8nPM)
+[![ScreenShot](https://i.ytimg.com/vi/kj1UNUV8nPM/3.jpg)](http://youtu.be/kj1UNUV8nPM)
 
 Requisitos:
 
