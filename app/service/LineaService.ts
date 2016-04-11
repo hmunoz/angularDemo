@@ -20,10 +20,15 @@ export class LineaService implements IServiceTodo<Linea>{
 
     }
 
+
+    get(id) {
+        return this.http.get(this._baseUrl + id).map((res:Response) => res.json());
+    }
+
     getAll() {
         return this.http.get(this._baseUrl).map((res:Response) => res.json());
     }
-
+    
 
     delete(id) {
         this.http.delete(this._baseUrl  + id)

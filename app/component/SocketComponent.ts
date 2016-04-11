@@ -1,15 +1,16 @@
-/**
- * Created by horaciomunoz on 8/4/16.
- */
-import {Observable} from 'rxjs/Observable';
+
 import 'rxjs/add/operator/share';
 import 'rxjs/add/operator/map';
 import {Component, Input, OnInit} from 'angular2/core';
 
 import {Todo} from '../model/todo';
+import {Linea} from '../model/linea';
 import {TodoService} from '../service/TodoService';
+import {LineaService} from '../service/LineaService';
 
 import {Panel} from 'primeng/primeng';
+import {Button} from 'primeng/primeng';
+import {InputText} from 'primeng/primeng';
 import {DataList} from 'primeng/primeng';
 import {Header} from 'primeng/primeng';
 import {Footer} from 'primeng/primeng';
@@ -23,8 +24,8 @@ declare let io;
 
 
 @Component({
-    directives: [TodoComponentItems,LineaSelector,Panel, DataList, Header, Footer, Growl],
-    providers: [TodoService],
+    directives: [TodoComponentItems,LineaSelector,Panel, DataList, Header, Footer, Growl,Button, InputText],
+    providers: [TodoService,LineaService],
     template: `
      <linea-selector (select)="cambioDeLinea($event)"></linea-selector>
     
@@ -33,16 +34,14 @@ declare let io;
 
       <div class="field">
         <label for="texto">Texto:</label>
-        <input name="texto" #newTexto pInputText>
+        <input name="texto" #newTexto pInputText required="true" placeholder="Ingrese Texto">
       </div>
       <div class="field">
         <label for="autor">Autor:</label>
-        <input name="autor" #newAutor pInputText>
+        <input name="autor" #newAutor pInputText required="true" placeholder="Ingrese Autor">
       </div>
 
-      <button (click)="addTodo(newTexto, newAutor)"
-              class="ui positive right floated button">
-        Submit Todo
+      <button (click)="addTodo(newTexto, newAutor)" pButton icon="fa-external-link-square" label="Enviar">
       </button>
        <p-growl [value]="msgs"></p-growl>
     </form>
@@ -68,7 +67,7 @@ export class SocketComponent implements OnInit {
 
     //https://angular.io/docs/ts/latest/guide/forms.html 
 
-    constructor(private _todoService:TodoService) {
+    constructor(private _todoService:TodoService, private _lineaService:LineaService) {
         this.todosSocket = [
             new Todo('Angular 2', 'http://angular.io', 'A', 0)
         ];
@@ -88,6 +87,14 @@ export class SocketComponent implements OnInit {
         this._todoService = value;
     }
 
+
+    get lineaService():LineaService {
+        return this._lineaService;
+    }
+
+    set lineaService(value:LineaService) {
+        this._lineaService = value;
+    }
 
     get socket():any {
         return this._socket;
@@ -121,15 +128,18 @@ export class SocketComponent implements OnInit {
         this.socket = io.connect('http://localhost:8000/', {forceNew: true, query: "linea=" + linea});
 
         this.socket.on('messages', function (data) {
-            //this.addTodoSocket(data[data.length - 1].texto, data[data.length - 1].autor);
-            this.todosSocket.push(data[data.length - 1]);
+             this.todosSocket.push(data[data.length - 1]);
         }.bind(this));
 
         this.socket.on('disconnect', function () {
             console.log('Se cancelo la comunicacion.');
         });
 
-        this.cambioLineShow(linea);
+
+        this.lineaService.get(linea).subscribe((linea:Linea)=>{
+            this.cambioLineShow(linea.texto);
+        });
+
 
 
     }
