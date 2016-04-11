@@ -1,11 +1,13 @@
 import 'rxjs/add/operator/share';
 import 'rxjs/add/operator/map';
-import {Component} from 'angular2/core';
+import {Component,enableProdMode} from 'angular2/core';
 import {RouteConfig, ROUTER_DIRECTIVES} from 'angular2/router';
 import {ListaTodo} from './component/ListaTodo';
 import {SocketComponent} from "./component/SocketComponent";
 import {Menu} from 'primeng/primeng';
 
+// -- Enable production module -------------------------------------------------
+enableProdMode();
 
 
 @Component({
@@ -38,7 +40,7 @@ import {Menu} from 'primeng/primeng';
 })
 @RouteConfig([
     {
-        path: '/',
+        path: '/home',
         name: 'SocketTodo',
         component: SocketComponent,
         useAsDefault: true

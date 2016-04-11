@@ -32,6 +32,8 @@ System.register(['rxjs/add/operator/share', 'rxjs/add/operator/map', 'angular2/c
                 primeng_1 = primeng_1_1;
             }],
         execute: function() {
+            // -- Enable production module -------------------------------------------------
+            core_1.enableProdMode();
             AppComponent = (function () {
                 function AppComponent() {
                 }
@@ -43,7 +45,7 @@ System.register(['rxjs/add/operator/share', 'rxjs/add/operator/map', 'angular2/c
                     }),
                     router_1.RouteConfig([
                         {
-                            path: '/',
+                            path: '/home',
                             name: 'SocketTodo',
                             component: SocketComponent_1.SocketComponent,
                             useAsDefault: true
