@@ -1,13 +1,10 @@
-
 import 'rxjs/add/operator/share';
 import 'rxjs/add/operator/map';
 import {Component, Input, OnInit} from 'angular2/core';
-
 import {Todo} from '../model/todo';
 import {Linea} from '../model/linea';
 import {TodoService} from '../service/TodoService';
 import {LineaService} from '../service/LineaService';
-
 import {Panel} from 'primeng/primeng';
 import {Button} from 'primeng/primeng';
 import {InputText} from 'primeng/primeng';
@@ -16,7 +13,6 @@ import {Header} from 'primeng/primeng';
 import {Footer} from 'primeng/primeng';
 import {Growl} from 'primeng/primeng';
 import {Message} from 'primeng/primeng';
-
 import {LineaSelector} from './lineaSelector';
 import {TodoComponentItems} from '../component/todoItems';
 
@@ -29,19 +25,25 @@ declare let io;
     template: `
      <linea-selector (select)="cambioDeLinea($event)"></linea-selector>
     
-    <form class="ui large form segment">
+    
+    <form class="ui large form segment" (ngSubmit)="addTodo()" #todoForm="ngForm">
       <h3 class="ui header">Add  Todo</h3>
+
 
       <div class="field">
         <label for="texto">Texto:</label>
-        <input name="texto" #newTexto pInputText required="true" placeholder="Ingrese Texto">
+        <input [(ngModel)]="model.texto" name="texto" ngControl="texto"  #texto="ngForm"  required placeholder="Ingrese Texto" pInputText>
+        <div [hidden]="texto.valid || texto.pristine" class="alert alert-danger">
+          Name is required
+        </div>
       </div>
       <div class="field">
         <label for="autor">Autor:</label>
-        <input name="autor" #newAutor pInputText required="true" placeholder="Ingrese Autor">
+        <input [(ngModel)]="model.autor" name="autor" 
+         ngControl="autor"  #autor="ngForm"  required placeholder="Ingrese Autor" pInputText>
       </div>
 
-      <button (click)="addTodo(newTexto, newAutor)" pButton icon="fa-external-link-square" label="Enviar">
+      <button type="submit" pButton icon="fa-external-link-square" label="Enviar" [disabled]="!todoForm.form.valid">
       </button>
        <p-growl [value]="msgs"></p-growl>
     </form>
@@ -57,13 +59,12 @@ declare let io;
 
 export class SocketComponent implements OnInit {
 
-
-   
     todosSocket:Todo[];
     @Input() linea;
     private _socket = null;
     msgs: Message[] = [];
 
+    model:Todo;
 
     //https://angular.io/docs/ts/latest/guide/forms.html 
 
@@ -75,7 +76,7 @@ export class SocketComponent implements OnInit {
 
 
     ngOnInit() {
-        
+        this.model = new Todo(null,null,'',0);
     }
 
     //getter and setter
@@ -111,13 +112,11 @@ export class SocketComponent implements OnInit {
     }
 
 
-    private addTodo(texto:HTMLInputElement, autor:HTMLInputElement):void {
-
-        let mns = new Todo(texto.value,texto.value,this.linea, 0);
-
-        this.socket.emit('new-menssage', mns);
-        this.todoService.add(mns);
-
+    private addTodo():void {
+        this.model.linea = this.linea;
+        this.socket.emit('new-menssage', this.model);
+        this.todoService.add(this.model);
+        this.model = new Todo(null,null,'',0);
     }
 
     private cambioDeLinea(linea):void {
