@@ -3,7 +3,7 @@ import {Observer} from 'rxjs/Observer';
 import 'rxjs/add/operator/share';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/startWith';
-import {Http, Headers} from 'angular2/http';
+import {Http, Headers,Response} from 'angular2/http';
 import { Injectable} from 'angular2/core';
 import {Todo} from '../model/todo';
 import {IServiceTodo} from './IServiceTodo';
@@ -25,6 +25,14 @@ export class TodoService implements IServiceTodo<Todo>{
         this.todos$ = new Observable(observer =>  this._todosObserver = observer)
             .startWith(this._dataStore.todos)
             .share();
+    }
+
+    getAllPag(pag, filters) {
+        var queryHeaders = new Headers();
+        queryHeaders.append('Content-Type', 'application/json');
+
+        return  this.http.put('http://localhost:8000/api/todopag/' + pag, JSON.stringify(filters),{headers : queryHeaders}).
+        map((res:Response) => res.json());
     }
 
     getAll() {
@@ -54,13 +62,10 @@ export class TodoService implements IServiceTodo<Todo>{
 
 
     add(todo: Todo) {
-        var _todo = "texto=" + todo.texto + "&autor=" + todo.autor+ "&linea=" + todo.linea;
-        //var queryParams = JSON.stringify(todo);
-
         var queryHeaders = new Headers();
-        queryHeaders.append('Content-Type', 'application/x-www-form-urlencoded');
+        queryHeaders.append('Content-Type', 'application/json');
 
-        this.http.post(this._baseUrl,_todo, {headers : queryHeaders} )
+        this.http.post(this._baseUrl,JSON.stringify(todo), {headers : queryHeaders} )
             .map(response => response.json())
             .subscribe(data => {
             this._dataStore.todos.push(data);
@@ -69,8 +74,6 @@ export class TodoService implements IServiceTodo<Todo>{
             ,() => console.log('agregar todos. OK'));
     
     }
-
-
-
+    
    
 }

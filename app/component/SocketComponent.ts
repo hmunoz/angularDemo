@@ -60,13 +60,10 @@ declare let io;
 export class SocketComponent implements OnInit {
 
     todosSocket:Todo[];
-    @Input() linea;
+    @Input() linea:String;
     private _socket = null;
     msgs: Message[] = [];
-
     model:Todo;
-
-    //https://angular.io/docs/ts/latest/guide/forms.html 
 
     constructor(private _todoService:TodoService, private _lineaService:LineaService) {
         this.todosSocket = [
@@ -77,6 +74,7 @@ export class SocketComponent implements OnInit {
 
     ngOnInit() {
         this.model = new Todo(null,null,'',0);
+        this.linea ='';
     }
 
     //getter and setter

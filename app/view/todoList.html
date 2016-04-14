@@ -1,0 +1,16 @@
+<p-dataTable [value]="todos" [rows]="10" [paginator]="true"  [responsive]="true" [lazy]="true"
+             [totalRecords]="totalRecords" (onLazyLoad)="loadCarsLazy($event)">
+    <header>Lista</header>
+    <p-column field="texto" header="texto" [filter]="true" [sortable]="true"></p-column>
+    <p-column field="autor" header="autor" [filter]="true" [sortable]="true"></p-column>
+    <p-column field="linea.texto" header="Linea" [filter]="true" [sortable]="true"></p-column>
+    <p-column style="width:10%;text-align:center">
+        <template #todo="rowData">
+            <button type="button" pButton (click)="show(todo)" icon="fa-search"></button>
+            <button type="button" pButton (click)="deleteTodo(todo._id)" icon="fa-remove"></button>
+        </template>
+    </p-column>
+    <footer>Fin de las Lista</footer>
+</p-dataTable>
+
+<p-growl [value]="msgs"></p-growl>

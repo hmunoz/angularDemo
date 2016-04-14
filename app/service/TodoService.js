@@ -38,6 +38,12 @@ System.register(['rxjs/Observable', 'rxjs/add/operator/share', 'rxjs/add/operato
                         .startWith(this._dataStore.todos)
                         .share();
                 }
+                TodoService.prototype.getAllPag = function (pag, filters) {
+                    var queryHeaders = new http_1.Headers();
+                    queryHeaders.append('Content-Type', 'application/json');
+                    return this.http.put('http://localhost:8000/api/todopag/' + pag, JSON.stringify(filters), { headers: queryHeaders }).
+                        map(function (res) { return res.json(); });
+                };
                 TodoService.prototype.getAll = function () {
                     var _this = this;
                     this.http.get(this._baseUrl)
@@ -63,11 +69,9 @@ System.register(['rxjs/Observable', 'rxjs/add/operator/share', 'rxjs/add/operato
                 };
                 TodoService.prototype.add = function (todo) {
                     var _this = this;
-                    var _todo = "texto=" + todo.texto + "&autor=" + todo.autor + "&linea=" + todo.linea;
-                    //var queryParams = JSON.stringify(todo);
                     var queryHeaders = new http_1.Headers();
-                    queryHeaders.append('Content-Type', 'application/x-www-form-urlencoded');
-                    this.http.post(this._baseUrl, _todo, { headers: queryHeaders })
+                    queryHeaders.append('Content-Type', 'application/json');
+                    this.http.post(this._baseUrl, JSON.stringify(todo), { headers: queryHeaders })
                         .map(function (response) { return response.json(); })
                         .subscribe(function (data) {
                         _this._dataStore.todos.push(data);

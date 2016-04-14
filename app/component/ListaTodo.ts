@@ -15,51 +15,39 @@ import {Footer} from 'primeng/primeng';
 import {Growl} from 'primeng/primeng';
 import {Message} from 'primeng/primeng';
 import {Button} from 'primeng/primeng';
-import {Router, RouteParams} from 'angular2/router';
+import {LazyLoadEvent} from 'primeng/primeng';
 
 
 @Component({
     directives: [Panel, DataList,DataTable, Header, Footer,Column,Button, Growl],
     providers: [TodoService],
-    template: `
-    <p-dataTable [value]="todos | async" [rows]="10" [paginator]="true" sortMode="multiple" [responsive]="true">
-    <header>Lista</header>
-    <p-column field="texto" header="texto" [filter]="true" [sortable]="true"></p-column>
-    <p-column field="autor" header="autor" [filter]="true" filterMatchMode="contains" [sortable]="true"></p-column>
-    <p-column field="linea.texto" header="Linea" [filter]="true" [sortable]="true"></p-column>
-    <p-column style="width:10%;text-align:center">
-        <template #todo="rowData">
-            <button type="button" pButton (click)="show(todo)" icon="fa-search"></button>
-            <button type="button" pButton (click)="deleteTodo(todo._id)" icon="fa-remove"></button>
-        </template>
-    </p-column>
-    <footer>Fin de las Lista</footer>
-    </p-dataTable>
-    
-   
-    <p-growl [value]="msgs"></p-growl>
-    `
+    templateUrl: 'app/view/todoList.html'
 })
 
 export class ListaTodo implements OnInit {
-
-    todos:Observable<Todo[]>;
-
+    
     msgs: Message[] = [];
+    private _todos:Todo[];
+    private _totalRecords: number;
 
-
-    //https://angular.io/docs/ts/latest/guide/forms.html
-
-    constructor(private _todoService:TodoService,
-                private _router: Router,
-                routeParams: RouteParams) {
+  
+    constructor(private _todoService:TodoService) {
 
     }
 
 
     ngOnInit() {
-        this.todos = this.todoService.todos$;
-        this.todoService.getAll();
+        this.todoService.getAllPag(1,{texto:{value:''},autor:{value:''},'linea.texto':{value:''}}).subscribe((resultado)=>{
+            this.todos = resultado.docs;
+            this.totalRecords = resultado.total;
+        });
+    }
+
+    loadCarsLazy(event: LazyLoadEvent) {
+        this.todoService.getAllPag(event.first/event.rows +1, event.filters).subscribe((resultado)=>{
+            this.todos = resultado.docs;
+            this.totalRecords = resultado.total;
+        });
     }
 
     //getter and setter
@@ -72,13 +60,32 @@ export class ListaTodo implements OnInit {
     }
 
 
+    get todos():Todo[] {
+        return this._todos;
+    }
 
+    set todos(value:Todo[]) {
+        this._todos = value;
+    }
 
+    get totalRecords():number {
+        return this._totalRecords;
+    }
+
+    set totalRecords(value:number) {
+        this._totalRecords = value;
+    }
 
     show(todo:Todo) {
         this.msgs = [];
         this.msgs.push({severity: 'info', summary: 'Info Message', detail: todo.autor + ",  "+ todo.texto});
     }
+
+
+    deleteTodo(todoId:number) {
+        this.todoService.delete(todoId);
+    }
+
 
 
 }

@@ -45,9 +45,9 @@ System.register(['angular2/core', 'primeng/primeng', '../service/LineaService', 
                 });
                 LineaSelector.prototype.ngOnInit = function () {
                     var _this = this;
+                    this.linea = '';
                     this.select.emit("");
                     this.lineaService.getAll().subscribe(function (lineas) {
-                        //this.lineas=lineas;
                         _this.lineas = [];
                         _this.lineas.push({ label: 'Seleccionar Linea...', value: '' });
                         for (var key in lineas) {
@@ -55,8 +55,8 @@ System.register(['angular2/core', 'primeng/primeng', '../service/LineaService', 
                         }
                     });
                 };
-                LineaSelector.prototype.test = function (event) {
-                    this.select.emit(event.value);
+                LineaSelector.prototype.cambioDeLinea = function () {
+                    this.select.emit(this.linea);
                 };
                 __decorate([
                     core_1.Output(), 

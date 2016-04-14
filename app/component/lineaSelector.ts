@@ -19,6 +19,7 @@ declare let io ;
 export class LineaSelector implements OnInit {
     @Output() select = new EventEmitter();
 
+    linea: String;
 
     constructor(private _lineaService:LineaService) {
 
@@ -36,9 +37,9 @@ export class LineaSelector implements OnInit {
     }
 
     ngOnInit(){
+        this.linea = '';
         this.select.emit("");
         this.lineaService.getAll().subscribe((lineas:Linea[])=>{
-            //this.lineas=lineas;
             this.lineas = [];
             this.lineas.push({label: 'Seleccionar Linea...', value:''});
             for(var key in lineas) {
@@ -48,8 +49,8 @@ export class LineaSelector implements OnInit {
     }
 
 
-     test(event){
-    this.select.emit(event.value);
-}
+    cambioDeLinea(){
+    this.select.emit(this.linea);
+    }
 
 }
