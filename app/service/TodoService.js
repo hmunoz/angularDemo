@@ -28,6 +28,7 @@ System.register(['rxjs/Observable', 'rxjs/add/operator/share', 'rxjs/add/operato
             }],
         execute: function() {
             //Ejemplo: https://github.com/jhades/angular2-rxjs-observable-data-services/blob/master/src/TodoBackendService.ts
+            //https://egghead.io/lessons/rxjs-rxjs-observables-vs-promises
             TodoService = (function () {
                 function TodoService(http) {
                     var _this = this;
@@ -42,7 +43,8 @@ System.register(['rxjs/Observable', 'rxjs/add/operator/share', 'rxjs/add/operato
                     var queryHeaders = new http_1.Headers();
                     queryHeaders.append('Content-Type', 'application/json');
                     return this.http.put('http://localhost:8000/api/todopag/' + pag, JSON.stringify(filters), { headers: queryHeaders }).
-                        map(function (res) { return res.json(); });
+                        toPromise().
+                        then(function (res) { return res.json(); }, function (err) { return console.log(err); });
                 };
                 TodoService.prototype.getAll = function () {
                     var _this = this;
@@ -56,16 +58,9 @@ System.register(['rxjs/Observable', 'rxjs/add/operator/share', 'rxjs/add/operato
                     }, function (error) { return console.log('Could not load todos.'); }, function () { return console.log('listar todos. OK'); });
                 };
                 TodoService.prototype.delete = function (id) {
-                    var _this = this;
-                    this.http.delete(this._baseUrl + id)
-                        .subscribe(function (response) {
-                        _this._dataStore.todos.forEach(function (t, i) {
-                            if (t._id === id) {
-                                _this._dataStore.todos.splice(i, 1);
-                            }
-                        });
-                        _this._todosObserver.next(_this._dataStore.todos);
-                    }, function (error) { return console.log('Could not delete todo.'); }, function () { return console.log('Eleiminar todo. OK'); });
+                    return this.http.delete(this._baseUrl + id)
+                        .toPromise()
+                        .then(function (res) { return res.json(); }, function (err) { return console.log(err); });
                 };
                 TodoService.prototype.add = function (todo) {
                     var _this = this;

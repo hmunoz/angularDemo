@@ -37,14 +37,14 @@ export class ListaTodo implements OnInit {
 
 
     ngOnInit() {
-        this.todoService.getAllPag(1,{texto:{value:''},autor:{value:''},'linea.texto':{value:''}}).subscribe((resultado)=>{
+        this.todoService.getAllPag(1,{texto:{value:''},autor:{value:''},'linea.texto':{value:''}}).then((resultado)=>{
             this.todos = resultado.docs;
             this.totalRecords = resultado.total;
         });
     }
 
     loadCarsLazy(event: LazyLoadEvent) {
-        this.todoService.getAllPag(event.first/event.rows +1, event.filters).subscribe((resultado)=>{
+        this.todoService.getAllPag(event.first/event.rows +1, event.filters).then((resultado)=>{
             this.todos = resultado.docs;
             this.totalRecords = resultado.total;
         });
@@ -83,7 +83,15 @@ export class ListaTodo implements OnInit {
 
 
     deleteTodo(todoId:number) {
-        this.todoService.delete(todoId);
+        this.todoService.delete(todoId).then((resultado)=>{
+             for(var i = this.todos.length; i--;) {
+                if(this.todos[i]._id === resultado._id) {
+                    this.todos.splice(i, 1);
+                }
+            }
+            this.totalRecords = this.totalRecords -1;
+            this.show(resultado);
+        });
     }
 
 

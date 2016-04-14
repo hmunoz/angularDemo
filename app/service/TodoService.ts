@@ -10,6 +10,8 @@ import {IServiceTodo} from './IServiceTodo';
 
 //Ejemplo: https://github.com/jhades/angular2-rxjs-observable-data-services/blob/master/src/TodoBackendService.ts
 
+//https://egghead.io/lessons/rxjs-rxjs-observables-vs-promises
+
 
 @Injectable()
 export class TodoService implements IServiceTodo<Todo>{
@@ -32,8 +34,11 @@ export class TodoService implements IServiceTodo<Todo>{
         queryHeaders.append('Content-Type', 'application/json');
 
         return  this.http.put('http://localhost:8000/api/todopag/' + pag, JSON.stringify(filters),{headers : queryHeaders}).
-        map((res:Response) => res.json());
+        toPromise().
+        then((res:Response) => res.json(), err => console.log(err));
     }
+
+    
 
     getAll() {
         this.http.get(this._baseUrl )
@@ -49,15 +54,9 @@ export class TodoService implements IServiceTodo<Todo>{
 
 
     delete(id) {
-        this.http.delete(this._baseUrl  + id)
-            .subscribe(response => {
-            this._dataStore.todos.forEach((t, i) => {
-                if (t._id === id) { this._dataStore.todos.splice(i, 1); }
-            });
-
-            this._todosObserver.next(this._dataStore.todos);
-        }, error => console.log('Could not delete todo.')
-            ,() => console.log('Eleiminar todo. OK'));
+     return   this.http.delete(this._baseUrl  + id)
+            .toPromise()
+            .then((res:Response) => res.json(), err => console.log(err));
     }
 
 
