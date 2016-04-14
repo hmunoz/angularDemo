@@ -74,6 +74,20 @@ export class TodoService implements IServiceTodo<Todo>{
             ,() => console.log('agregar todos. OK'));
     
     }
+
+    update(todo: Todo) {
+        var queryHeaders = new Headers();
+        queryHeaders.append('Content-Type', 'application/json');
+
+        this.http.put(this._baseUrl + '570fad1847b51dcb454498bc',JSON.stringify(todo), {headers : queryHeaders} )
+            .map(response => response.json())
+            .subscribe(data => {
+                    this._dataStore.todos.push(data);
+                    this._todosObserver.next(this._dataStore.todos);
+                }, error => console.log('Could not create todo.')
+                ,() => console.log('agregar todos. OK'));
+
+    }
     
    
 }

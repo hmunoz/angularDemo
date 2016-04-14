@@ -10,15 +10,10 @@ export class Todo {
         this.texto = texto;
         this.linea = linea;
         this.votes = votes;
-
     }
-
-
-
     voteUp() {
         this.votes += 1;
     }
-
     voteDown() {
         this.votes -= 1;
     }

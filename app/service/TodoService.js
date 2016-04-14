@@ -78,6 +78,17 @@ System.register(['rxjs/Observable', 'rxjs/add/operator/share', 'rxjs/add/operato
                         _this._todosObserver.next(_this._dataStore.todos);
                     }, function (error) { return console.log('Could not create todo.'); }, function () { return console.log('agregar todos. OK'); });
                 };
+                TodoService.prototype.update = function (todo) {
+                    var _this = this;
+                    var queryHeaders = new http_1.Headers();
+                    queryHeaders.append('Content-Type', 'application/json');
+                    this.http.put(this._baseUrl + '570fad1847b51dcb454498bc', JSON.stringify(todo), { headers: queryHeaders })
+                        .map(function (response) { return response.json(); })
+                        .subscribe(function (data) {
+                        _this._dataStore.todos.push(data);
+                        _this._todosObserver.next(_this._dataStore.todos);
+                    }, function (error) { return console.log('Could not create todo.'); }, function () { return console.log('agregar todos. OK'); });
+                };
                 TodoService = __decorate([
                     core_1.Injectable(), 
                     __metadata('design:paramtypes', [http_1.Http])

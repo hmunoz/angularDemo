@@ -4,6 +4,7 @@
     <p-column field="texto" header="texto" [filter]="true" [sortable]="true"></p-column>
     <p-column field="autor" header="autor" [filter]="true" [sortable]="true"></p-column>
     <p-column field="linea.texto" header="Linea" [filter]="true" [sortable]="true"></p-column>
+    <p-column field="votes" header="votes" ></p-column>
     <p-column style="width:10%;text-align:center">
         <template #todo="rowData">
             <button type="button" pButton (click)="show(todo)" icon="fa-search"></button>

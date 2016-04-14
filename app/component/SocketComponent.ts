@@ -34,13 +34,16 @@ declare let io;
         <label for="texto">Texto:</label>
         <input [(ngModel)]="model.texto" name="texto" ngControl="texto"  #texto="ngForm"  required placeholder="Ingrese Texto" pInputText>
         <div [hidden]="texto.valid || texto.pristine" class="alert alert-danger">
-          Name is required
+          Texto is required
         </div>
       </div>
       <div class="field">
         <label for="autor">Autor:</label>
         <input [(ngModel)]="model.autor" name="autor" 
          ngControl="autor"  #autor="ngForm"  required placeholder="Ingrese Autor" pInputText>
+         <div [hidden]="autor.valid || autor.pristine" class="alert alert-danger">
+          Autor es requerido
+        </div>
       </div>
 
       <button type="submit" pButton icon="fa-external-link-square" label="Enviar" [disabled]="!todoForm.form.valid">
@@ -60,7 +63,7 @@ declare let io;
 export class SocketComponent implements OnInit {
 
     todosSocket:Todo[];
-    @Input() linea:String;
+    @Input() linea:string;
     private _socket = null;
     msgs: Message[] = [];
     model:Todo;
@@ -125,7 +128,8 @@ export class SocketComponent implements OnInit {
         this.socket = io.connect('http://localhost:8000/', {forceNew: true, query: "linea=" + linea});
 
         this.socket.on('messages', function (data) {
-             this.todosSocket.push(data[data.length - 1]);
+            var temp = data[data.length - 1];
+            this.todosSocket.push(new Todo(temp.texto, temp.autor, temp.linea, 0));
         }.bind(this));
 
         this.socket.on('disconnect', function () {
