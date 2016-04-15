@@ -46,10 +46,10 @@ System.register(['angular2/core', 'primeng/primeng', '../service/LineaService', 
                 LineaSelector.prototype.ngOnInit = function () {
                     var _this = this;
                     this.linea = '';
-                    this.select.emit("");
+                    //this.select.emit("");
                     this.lineaService.getAll().subscribe(function (lineas) {
                         _this.lineas = [];
-                        _this.lineas.push({ label: 'Seleccionar Linea...', value: '' });
+                        _this.lineas.push({ label: 'Seleccionar linea...', value: '' });
                         for (var key in lineas) {
                             _this.lineas.push({ label: lineas[key].texto, value: lineas[key]._id });
                         }

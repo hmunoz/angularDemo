@@ -38,10 +38,10 @@ export class LineaSelector implements OnInit {
 
     ngOnInit(){
         this.linea = '';
-        this.select.emit("");
+        //this.select.emit("");
         this.lineaService.getAll().subscribe((lineas:Linea[])=>{
             this.lineas = [];
-            this.lineas.push({label: 'Seleccionar Linea...', value:''});
+            this.lineas.push({label: 'Seleccionar linea...', value:''});
             for(var key in lineas) {
                 this.lineas.push({label: lineas[key].texto, value:lineas[key]._id});
             }
