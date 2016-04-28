@@ -7,6 +7,7 @@ import {Todo} from '../model/todo';
 import {TodoService} from '../service/TodoService';
 
 import {Panel} from 'primeng/primeng';
+import {Dialog} from 'primeng/primeng';
 import {DataList} from 'primeng/primeng'; 
 import {DataTable} from 'primeng/primeng';
 import {Header} from 'primeng/primeng';
@@ -19,7 +20,7 @@ import {LazyLoadEvent} from 'primeng/primeng';
 
 
 @Component({
-    directives: [Panel, DataList,DataTable, Header, Footer,Column,Button, Growl],
+    directives: [Panel, DataList,DataTable, Header, Footer,Column,Button, Growl,Dialog],
     providers: [TodoService],
     templateUrl: 'app/view/todoList.html'
 })
@@ -29,7 +30,8 @@ export class ListaTodo implements OnInit {
     msgs: Message[] = [];
     private _todos:Todo[];
     private _totalRecords: number;
-
+    selectedCar:Todo;
+    displayDialog: boolean;
   
     constructor(private _todoService:TodoService) {
 
@@ -71,7 +73,14 @@ export class ListaTodo implements OnInit {
     get totalRecords():number {
         return this._totalRecords;
     }
+    selectCar(todo: Todo) {
+        this.selectedCar = todo;
+        this.displayDialog = true;
+    }
 
+    onDialogHide() {
+        this.selectedCar = null;
+    }
     set totalRecords(value:number) {
         this._totalRecords = value;
     }
